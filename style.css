@@ -1,12 +1,4 @@
-/* === Variabel global === */
-:root {
-  --font-family-main: 'Poppins', sans-serif;
-  --text-black: #000000;
-  --text-red: rgba(255, 47, 47, 0.85);
-  --bg-white: #ffffff;
-}
-
-/* === Reset dasar === */
+/* Reset dasar */
 * {
   margin: 0;
   padding: 0;
@@ -14,100 +6,119 @@
 }
 
 body {
-  font-family: var(--font-family-main);
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--bg-white);
-  overflow-x: hidden;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #fafafa;
+  color: #333;
 }
 
-/* === Gambar karakter background === */
-.bg-top {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 200px;
-}
-.bg-bottom {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 200px;
+/* Header */
+header {
+  background: #333;
+  color: white;
+  padding: 15px 20px;
+  position: sticky;
+  top: 0; /* biar header selalu nempel di atas */
+  z-index: 1000;
 }
 
-/* === Container form utama === */
-.form-container {
-  position: relative;
-  background: var(--bg-white);
-  width: 400px;
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  z-index: 1;
+header h1 {
+  display: inline-block;
+  font-size: 20px;
+}
+
+nav ul {
+  float: right;
+  list-style: none;
+}
+
+nav ul li {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: #ff9800; /* warna highlight saat hover */
+}
+
+/* Foto Profil */
+.profile-pic {
+  display: block;
+  margin: 20px auto;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #333;
+  transition: transform 0.3s ease;
+}
+
+.profile-pic:hover {
+  transform: scale(1.05); /* zoom kecil saat hover */
+}
+
+/* Section umum */
+section {
+  padding: 60px 20px;
+  max-width: 900px;
+  margin: auto;
   text-align: center;
 }
 
-/* === Judul (Login / Sign Up) === */
-.form-container h2 {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--text-black);
+section h2 {
+  font-size: 28px;
   margin-bottom: 20px;
+  color: #222;
 }
 
-/* === Input field === */
-.form-container input {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 2px solid var(--text-black);
-  border-radius: 20px;
-  font-size: 16px;
-  font-family: var(--font-family-main);
+/* Project Card */
+.project-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 600px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* === Tombol utama === */
-.form-container button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 20px;
-  background-color: var(--text-black);
-  color: var(--bg-white);
-  font-size: 18px;
-  font-weight: 700;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: 0.3s;
+.project-card img {
+  max-width: 100%;
+  border-radius: 6px;
+  margin-bottom: 10px;
 }
 
-.form-container button:hover {
-  background-color: var(--text-red);
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
-/* === Link (Sign up / Forgot password) === */
-.form-container p {
-  font-size: 14px;
-  margin-top: 15px;
-  color: var(--text-black);
+/* Footer */
+footer {
+  text-align: center;
+  background: #333;
+  color: white;
+  padding: 20px;
+  margin-top: 40px;
 }
 
-.form-container a {
-  color: var(--text-red);
-  text-decoration: none;
-  font-weight: 500;
-}
-.form-container a:hover {
-  text-decoration: underline;
-}
-
-/* === Responsive === */
+/* Responsif untuk HP */
 @media (max-width: 768px) {
-  .form-container {
-    width: 90%;
-    padding: 20px;
+  nav ul {
+    float: none;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  nav ul li {
+    display: block;
+    margin: 10px 0;
   }
 }
