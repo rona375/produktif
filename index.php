@@ -1,79 +1,71 @@
 <?php
-  if (!empty($_GET['q'])) {
-    switch ($_GET['q']) {
-      case 'info':
-        phpinfo(); 
-        exit;
-      break;
+session_start();
+include "db.php";
+
+if (isset($_POST['login'])) { // cek apakah tombol login ditekan
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // cek username
+    $query = "SELECT * FROM users WHERE username='$username'";
+    $result = $conn->query($query);
+
+    if ($result->num_rows == 0) {
+        $error_message = "❌ Username tidak ditemukan!";
+    } else {
+        $row = $result->fetch_assoc();
+        if ($row['password'] !== $password) {
+            $error_message = "⚠️ Password salah!";
+        } else {
+            // login berhasil
+            $_SESSION['username'] = $username;
+            header("Location: home.php");
+            exit();
+        }
     }
-  }
+}
+$conn->close();
+
 ?>
+
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Laragon</title>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="login-page">
+      <h2>Login</h2>
+      <form action="index.php" method="POST">
+          <input type="text" name="username" placeholder="Username" required>
+          <input type="password" name="password" placeholder="Password" required>
 
-        <link href="https://fonts.googleapis.com/css?family=Karla:400" rel="stylesheet" type="text/css">
+          <div class="forgot">
+            <a href="forgot_password.php">Forgot your password?</a>
+          </div>
+          <button type="submit" name="login">LOGIN</button> 
+      </form>
+        <div class="signup">
+      <p>Don't have an account? <a href="register.php">Sign up</a></p>
+  </div>
 
-        <style>
-            html, body {
-                height: 100%;
-            }
+  <!-- background karakter -->
+  <img src="img au/dude top.png" class="bg-top" alt="Dude top">
+  <img src="img au/dude bottom.png" class="bg-bottom" alt="Dude bottom">
 
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                display: table;
-                font-weight: 100;
-                font-family: 'Karla';
-            }
-
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
-
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
-
-            .title {
-                font-size: 96px;
-            }
-
-            .opt {
-                margin-top: 30px;
-            }
-
-            .opt a {
-              text-decoration: none;
-              font-size: 150%;
-            }
-            
-            a:hover {
-              color: red;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="content">
-                <div class="title" title="Laragon">Laragon</div>
-     
-                <div class="info"><br />
-                      <?php print($_SERVER['SERVER_SOFTWARE']); ?><br />
-                      PHP version: <?php print phpversion(); ?>   <span><a title="phpinfo()" href="/?q=info">info</a></span><br />
-                      Document Root: <?php print ($_SERVER['DOCUMENT_ROOT']); ?><br />
-
-                </div>
-                <div class="opt">
-                  <div><a title="Getting Started" href="https://laragon.org/docs">Getting Started</a></div>
-                </div>
-            </div>
-
-        </div>
-    </body>
+  <!-- Dekorasi bintang -->
+        <img src="img au/Star 1.png" class="star index-star-right-top-big">
+        <img src="img au/Star 2.png" class="star index-star-left-bottom-big">
+        <img src="img au/Star 3.png" class="star index-star-left-bottom-small">
+        <img src="img au/Star 4.png" class="star index-star-right-top-small">
+</body>
 </html>
+
+<?php if (!empty($error_message)): ?> 
+<div class="popup"> 
+    <p><?php echo $error_message; ?></p>
+    <button onclick="this.parentElement.style.display='none';">OK</button> 
+</div>
+<?php endif; ?>
