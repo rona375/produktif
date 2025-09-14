@@ -2,26 +2,30 @@
 session_start();
 include "db.php";
 
-if (isset($_POST['login'])) {
+if (isset($_POST['login'])) { // cek apakah tombol login ditekan
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Gunakan prepared statement biar aman dari SQL Injection
-    $stmt = $conn->prepare("SELECT * FROM users WHERE username=? AND password=?");
-    $stmt->bind_param("ss", $username, $password);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    // cek username
+    $query = "SELECT * FROM users WHERE username='$username'";
+    $result = $conn->query($query);
 
-    if ($result->num_rows > 0) {  
-        $_SESSION['username'] = $username;
-        header("Location: home.php");
-        exit(); // penting: hentikan eksekusi setelah redirect
-    } else { 
-        echo "<script>alert('Username atau Password salah!');</script>";
+    if ($result->num_rows == 0) {
+        $error_message = "❌ Username tidak ditemukan!";
+    } else {
+        $row = $result->fetch_assoc();
+        if ($row['password'] !== $password) {
+            $error_message = "⚠️ Password salah!";
+        } else {
+            // login berhasil
+            $_SESSION['username'] = $username;
+            header("Location: home.php");
+            exit();
+        }
     }
-
-    $stmt->close();
 }
+$conn->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -58,3 +62,10 @@ if (isset($_POST['login'])) {
         <img src="img au/Star 4.png" class="star index-star-right-top-small">
 </body>
 </html>
+
+<?php if (!empty($error_message)): ?> 
+<div class="popup"> 
+    <p><?php echo $error_message; ?></p>
+    <button onclick="this.parentElement.style.display='none';">OK</button> 
+</div>
+<?php endif; ?>
